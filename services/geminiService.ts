@@ -20,7 +20,6 @@ const getPromptForDifficulty = (difficulty: Difficulty) => {
     The problem should involve either multiplication or division.
     The story should be engaging (e.g., about animals, space, magic, or school).
     Provide 3 multiple choice options. One is correct.
-    Also provide a single emoji that best represents the main subject of the story (e.g. if it's about apples, return '🍎').
   `;
 };
 
@@ -43,10 +42,9 @@ export const generateStoryProblem = async (difficulty: Difficulty = Difficulty.M
               description: "Three possible answers as strings (e.g. '15 ябълки')."
             },
             correctIndex: { type: Type.INTEGER, description: "The index (0-2) of the correct answer." },
-            explanation: { type: Type.STRING, description: "A simple, encouraging explanation of the solution in Bulgarian." },
-            subjectEmoji: { type: Type.STRING, description: "A single emoji representing the subject." }
+            explanation: { type: Type.STRING, description: "A simple, encouraging explanation of the solution in Bulgarian." }
           },
-          required: ["questionText", "options", "correctIndex", "explanation", "subjectEmoji"],
+          required: ["questionText", "options", "correctIndex", "explanation"],
         },
       },
     });
@@ -61,8 +59,7 @@ export const generateStoryProblem = async (difficulty: Difficulty = Difficulty.M
       options: data.options,
       correctAnswerIndex: data.correctIndex,
       explanation: data.explanation,
-      type: 'story',
-      subjectEmoji: data.subjectEmoji || '✨'
+      type: 'story'
     };
   } catch (error) {
     console.error("Error generating story problem:", error);

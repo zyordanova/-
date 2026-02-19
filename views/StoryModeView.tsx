@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { generateStoryProblem } from '../services/geminiService';
 import { Question, Difficulty, HistoryEntry, UserStats, MascotAccessory } from '../types';
 import { Button } from '../components/Button';
+import { DrawingCanvas } from '../components/DrawingCanvas';
 
 interface StoryModeViewProps {
   onScoreUpdate: (points: number, stars: number, category?: string, historyItem?: Partial<HistoryEntry>) => void;
@@ -76,34 +77,23 @@ export const StoryModeView: React.FC<StoryModeViewProps> = ({
     );
   }
 
-  // Generate visualization based on subjectEmoji
-  const renderVisualization = () => {
-    const emoji = question.subjectEmoji || '✨';
-    // Create a simple pattern of 5-10 emojis to set the mood
-    const items = Array.from({length: 8});
-    
-    return (
-        <div className="w-full bg-indigo-50 rounded-2xl p-4 mb-6 flex flex-wrap justify-center gap-4 border-2 border-indigo-100 min-h-[100px] items-center">
-            {items.map((_, i) => (
-                <div key={i} className="text-4xl animate-bounce-slow" style={{animationDelay: `${i * 0.1}s`}}>
-                    {emoji}
-                </div>
-            ))}
-        </div>
-    );
-  };
-
   return (
-    <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 max-w-2xl mx-auto w-full border-b-8 border-violet-200">
+    <div className="bg-white rounded-3xl shadow-xl p-4 md:p-8 max-w-2xl mx-auto w-full border-b-8 border-violet-200">
       
-      {renderVisualization()}
-
-      <div className="mb-6">
+      {/* Question Text */}
+      <div className="mb-4">
            <h3 className="text-xl md:text-2xl font-bold text-gray-800 leading-relaxed text-center">
             {question.text}
           </h3>
       </div>
 
+      {/* Drawing Area for Visualization */}
+      <div className="mb-6">
+        <p className="text-sm text-gray-500 mb-2 font-bold text-center">✏️ Нарисувай условието тук:</p>
+        <DrawingCanvas />
+      </div>
+
+      {/* Options */}
       <div className="space-y-3">
         {question.options.map((opt, idx) => (
           <Button

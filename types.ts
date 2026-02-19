@@ -22,7 +22,6 @@ export interface Question {
   explanation?: string; // Optional explanation for the answer
   type: 'math' | 'geometry' | 'story';
   imageUrl?: string; // For geometry or visual cues
-  subjectEmoji?: string; // For story mode visualization (e.g. "🍎")
 }
 
 export type MascotAccessory = 'none' | 'glasses' | 'hat' | 'crown' | 'bow';

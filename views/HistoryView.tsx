@@ -23,10 +23,6 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
   const correctAnswers = history.filter(h => h.isCorrect).length;
   const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const accessories: { id: MascotAccessory, icon: string }[] = [
     { id: 'none', icon: '🚫' },
     { id: 'glasses', icon: '👓' },
@@ -37,55 +33,28 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
 
   return (
     <div className="flex flex-col h-full animate-fade-in w-full max-w-4xl mx-auto">
-      <style>{`
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          .print-area, .print-area * {
-            visibility: visible;
-          }
-          .print-area {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            background: white;
-            color: black;
-            padding: 20px;
-          }
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
-
       {/* Header & Nav */}
-      <div className="flex items-center justify-between mb-6 no-print">
+      <div className="flex items-center justify-between mb-6">
         <Button variant="outline" size="sm" onClick={onBack}>
           ⬅ Назад
         </Button>
         <h2 className="text-2xl font-bold text-indigo-700 fun-font hidden sm:block">
           Дневник на Героя
         </h2>
-        <div className="flex gap-2">
-            <Button variant="primary" size="sm" onClick={handlePrint}>
-              🖨️ Принтирай
-            </Button>
-        </div>
+        <div className="w-10"></div> {/* Spacer for centering */}
       </div>
 
-      <div className="print-area flex flex-col gap-6">
+      <div className="flex flex-col gap-6">
         
         {/* Section 1: Character & Stats */}
         <div className="bg-white rounded-3xl shadow-lg p-6 border-b-4 border-indigo-200 flex flex-col md:flex-row gap-8 items-center">
           
           {/* Customization Column */}
           <div className="flex flex-col items-center">
-            <h3 className="font-bold text-gray-500 mb-2 no-print">Твоят Герой</h3>
+            <h3 className="font-bold text-gray-500 mb-2">Твоят Герой</h3>
             
             {/* Color Picker */}
-            <div className="flex gap-2 mt-2 no-print mb-3">
+            <div className="flex gap-2 mt-2 mb-3">
               {(['blue', 'pink', 'green', 'purple'] as const).map(c => (
                 <button
                   key={c}
@@ -98,7 +67,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
             </div>
 
             {/* Accessory Picker */}
-            <div className="flex gap-2 no-print bg-gray-50 p-2 rounded-xl">
+            <div className="flex gap-2 bg-gray-50 p-2 rounded-xl">
               {accessories.map((acc) => (
                 <button
                   key={acc.id}
@@ -146,7 +115,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
             <h3 className="text-xl font-bold text-gray-800">История на задачите</h3>
             <button 
               onClick={onClearHistory} 
-              className="text-red-400 text-sm hover:text-red-600 underline no-print"
+              className="text-red-400 text-sm hover:text-red-600 underline"
             >
               Изчисти историята
             </button>
@@ -157,7 +126,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
               <p>Все още нямаш решени задачи. Хайде да поиграем!</p>
             </div>
           ) : (
-            <div className="space-y-3 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar print:max-h-none print:overflow-visible">
+            <div className="space-y-3 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
               {[...history].reverse().map((entry) => (
                 <div 
                   key={entry.id} 
@@ -185,10 +154,6 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
               ))}
             </div>
           )}
-        </div>
-
-        <div className="text-center text-gray-400 text-sm mt-4 hidden print:block">
-          Отчет генериран от "Математическо Приключение"
         </div>
       </div>
     </div>
