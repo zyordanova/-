@@ -141,7 +141,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                     <div className="flex gap-2 text-xs text-gray-500 mt-1">
                       <span className="uppercase">{
                         entry.type === 'math' ? '🧮 Математика' : 
-                        entry.type === 'geometry' ? '🔺 Геометрия' : '🦄 История'
+                        entry.type === 'geometry' ? '🔺 Геометрия' : '🦄 Текстови задачи'
                       }</span>
                       <span>•</span>
                       <span>{entry.difficulty === 'EASY' ? 'Лесно' : entry.difficulty === 'MEDIUM' ? 'Средно' : 'Трудно'}</span>

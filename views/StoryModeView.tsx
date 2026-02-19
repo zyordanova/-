@@ -48,11 +48,11 @@ export const StoryModeView: React.FC<StoryModeViewProps> = ({
     };
 
     if (correct) {
-      setFeedback(`Браво! ${question.explanation || ""}`);
+      setFeedback(`Поздравления! ${question.explanation || ""}`);
       const points = difficulty === Difficulty.HARD ? 25 : difficulty === Difficulty.MEDIUM ? 20 : 15;
       onScoreUpdate(points, 2, 'story', historyItem); 
     } else {
-      setFeedback("Не точно. Прочети пак внимателно!");
+      setFeedback("Отговорът не е верен. Прочети условието отново.");
       onScoreUpdate(0, 0, 'story', historyItem);
     }
   };

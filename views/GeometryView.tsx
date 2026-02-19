@@ -181,13 +181,13 @@ export const GeometryView: React.FC<GeometryViewProps> = ({
     };
 
     if (correct) {
-      setFeedback("Браво! " + question.explanation);
+      setFeedback("Поздравления! " + question.explanation);
       setIsCorrect(true);
       onScoreUpdate(15, 1, 'geometry', historyItem);
       setTimeout(generateQuestion, 3000);
     } else {
       setIsCorrect(false);
-      setFeedback("Грешка. " + question.explanation);
+      setFeedback("Не е това отговорът. " + question.explanation);
       onScoreUpdate(0, 0, 'geometry', historyItem);
       // Wait longer on error to read
       setTimeout(generateQuestion, 4000);

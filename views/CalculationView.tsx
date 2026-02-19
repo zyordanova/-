@@ -163,12 +163,13 @@ export const CalculationView: React.FC<CalculationViewProps> = ({
     if (correct) {
       const points = difficulty === Difficulty.HARD ? 20 : difficulty === Difficulty.MEDIUM ? 15 : 10;
       onScoreUpdate(points, 1, 'math', historyItem);
+      // Try to get AI encouragement, fallback to strict standard Bulgarian
       const msg = await getEncouragement(true);
       setFeedback(msg);
       setTimeout(generateQuestion, 2000);
     } else {
       onScoreUpdate(0, 0, 'math', historyItem); 
-      setFeedback("Грешка! Опитай пак.");
+      setFeedback("Неправилен отговор. Опитай отново.");
       setTimeout(generateQuestion, 2000);
     }
   };

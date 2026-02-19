@@ -35,14 +35,14 @@ export const generateStoryProblem = async (difficulty: Difficulty = Difficulty.M
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            questionText: { type: Type.STRING, description: "The word problem text in Bulgarian." },
+            questionText: { type: Type.STRING, description: "The word problem text in standard Bulgarian (Cyrillic)." },
             options: { 
               type: Type.ARRAY, 
               items: { type: Type.STRING },
               description: "Three possible answers as strings (e.g. '15 ябълки')."
             },
             correctIndex: { type: Type.INTEGER, description: "The index (0-2) of the correct answer." },
-            explanation: { type: Type.STRING, description: "A simple, encouraging explanation of the solution in Bulgarian." }
+            explanation: { type: Type.STRING, description: "A simple, correct grammatical explanation of the solution in standard Bulgarian." }
           },
           required: ["questionText", "options", "correctIndex", "explanation"],
         },
@@ -69,16 +69,30 @@ export const generateStoryProblem = async (difficulty: Difficulty = Difficulty.M
 
 export const getEncouragement = async (isCorrect: boolean): Promise<string> => {
   try {
-    const prompt = isCorrect 
-      ? "Give a short, super enthusiastic phrase in Bulgarian praising a 2nd grader for a correct math answer (max 5 words)."
-      : "Give a short, gentle, encouraging phrase in Bulgarian for a 2nd grader who made a math mistake, telling them to try again (max 6 words).";
+    // Strict pedagogical prompt for standard Bulgarian
+    const prompt = `
+      Ти си опитен начален учител в България.
+      Твоята задача е да дадещ кратка обратна връзка на ученик от 2-ри клас.
+      
+      Ситуация: Ученикът отговори ${isCorrect ? 'ВЯРНО' : 'ГРЕШНО'} на задача.
+      
+      Изисквания:
+      1. Използвай само книжовен български език (кирилица).
+      2. Без жаргон, без английски думи, без правописни грешки.
+      3. Максимум 6 думи.
+      4. ${isCorrect 
+            ? 'Фразата трябва да е похвала (напр. "Отлично се справи!", "Поздравления за успеха!", "Чудесен резултат!").' 
+            : 'Фразата трябва да е мотивираща корекция (напр. "Опитай отново.", "Помисли още малко.", "Не се отказвай!").'}
+      
+      Върни само текста.
+    `;
 
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: prompt,
     });
-    return response.text?.trim() || (isCorrect ? "Браво!" : "Опитай пак!");
+    return response.text?.trim() || (isCorrect ? "Отлично се справи!" : "Опитай отново!");
   } catch (e) {
-    return isCorrect ? "Чудесно!" : "Не се предавай!";
+    return isCorrect ? "Поздравления!" : "Пробвай пак!";
   }
 };
